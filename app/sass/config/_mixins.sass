@@ -1,0 +1,87 @@
+// Font face
+=font_face($font-family, $file-path, $weight: normal, $style: normal, $asset-pipeline: false )
+	@font-face
+		font-family: $font-family
+		font-weight: $weight
+		font-style: $style
+
+		@if $asset-pipeline == true 
+			src: font-url('#{$file-path}.eot')
+			src: font-url('#{$file-path}.eot?#iefix') format('embedded-opentype'), font-url('#{$file-path}.woff') format('woff'), font-url('#{$file-path}.ttf') format('truetype')
+		@else
+			src: url('#{$file-path}.eot')
+			src: url('#{$file-path}.eot?#iefix') format('embedded-opentype'), url('#{$file-path}.woff') format('woff'), url('#{$file-path}.ttf') format('truetype')
+
+
+
+// Horizontal gradient - from left to right
+=gradient_x($start-color: #555, $end-color: #333, $start-percent: 0%, $end-percent: 100%)
+  background-image: linear-gradient(to right, $start-color $start-percent, $end-color $end-percent)
+  background-repeat: repeat-x
+
+// Vertical gradient - from top to bottom
+=gradient_y($start-color: #555, $end-color: #333, $start-percent: 0%, $end-percent: 100%)
+  background-image: linear-gradient(to bottom, $start-color $start-percent, $end-color $end-percent)
+  background-repeat: repeat-x
+
+
+
+// Media queries
+// max-width
+=xxxl
+  @media only screen and (max-width: $xxxl)
+    @content
+    
+=xxl
+  @media only screen and (max-width: $xxl)
+    @content
+
+=xl
+  @media only screen and (max-width: $xl)
+    @content
+
+=lg
+  @media only screen and (max-width: $lg)
+    @content
+
+=md
+  @media only screen and (max-width: $md)
+    @content
+
+=sm
+  @media only screen and (max-width: $sm)
+    @content
+
+
+// min-width
+=min_xxxl
+  @media only screen and (min-width: $xxxl)
+    @content
+
+=min_xxl
+  @media only screen and (min-width: $xxl)
+    @content
+
+=min_xl
+  @media only screen and (min-width: $xl)
+    @content
+
+=min_lg
+  @media only screen and (min-width: $lg)
+    @content
+
+=min_md
+  @media only screen and (min-width: $md)
+    @content
+
+=min_sm
+  @media only screen and (min-width: $sm)
+    @content
+
+
+
+// Media queries
+// max-height
+=h800
+  @media only screen and (max-height: $h800)
+    @content

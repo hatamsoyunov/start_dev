@@ -1,0 +1,131 @@
+html,
+body
+	font-size: 16px
+	+xxl
+		// font-size: 15px
+	+xl
+		// font-size: 14px
+	+lg
+		// font-size: 12px
+	+md
+		// font-size: 11px
+	+sm
+
+
+body
+	min-width: 320px
+	position: relative
+	font-family: $def_font
+	line-height: 1.65
+	overflow-x: hidden
+	-webkit-font-smoothing: antialiased
+	&.no_scroll
+		overflow: hidden
+
+
+::placeholder
+	color: #666
+
+::selection
+	background-color: $acc
+	color: #fff
+
+
+ul
+	margin: 0
+	padding: 0
+	list-style-type: none
+
+
+a
+	transition: all .3s ease
+	&:hover
+		text-decoration: none
+	&:focus
+		text-decoration: none
+		outline: none
+
+
+img
+	width: auto
+	max-width: 100%
+	height: auto
+
+
+
+// Default btn
+.btn
+	position: relative
+	display: inline-block
+	font-size: 13px
+	font-weight: 600
+	text-transform: uppercase
+	border-radius: 4px
+	color: #fff
+	text-align: center
+	text-decoration: none
+	padding: 13px 38px 11px
+	background-color: $btn_c
+	border: none
+	outline: none
+	transition: all .3s ease
+	&:focus:not(.disabled),
+	&:hover:not(.disabled)
+		text-decoration: none
+	&:focus:not(.disabled)
+		outline: none
+	&:hover:not(.disabled)
+		cursor: pointer
+		background-color: lighten($btn_c, 10%)
+	&:active:not(.disabled)
+		background-color: darken($btn_c, 5%)
+
+	&.disabled
+		opacity: .4
+		
+	-ms-user-select: none
+	-moz-user-select: none
+	-khtml-user-select: none
+	-webkit-user-select: none
+
+
+
+// Text align
+.t_center
+	text-align: center
+
+.t_left
+	text-align: left
+
+.t_right
+	text-align: right
+
+
+
+// Flex group & align
+.group
+	display: flex
+	
+	&.fx_wrap
+		flex-wrap: wrap
+
+	&.ai_start
+		align-items: flex-start
+
+	&.ai_center
+		align-items: center
+	
+	&.ai_end
+		align-items: flex-end
+	
+	&.jc_start
+		justify-content: flex-start
+
+	&.jc_between
+		justify-content: space-between
+	
+	&.jc_end
+		justify-content: flex-end
+
+	&.fd_col
+		flex-direction: column
