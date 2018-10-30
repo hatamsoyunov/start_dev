@@ -9,9 +9,9 @@ Front-end developing start template
 1. Node.js
 2. Bower (npm i -g bower)
 
-<p>In root of template, use commands:</p>
-1. npm i (Install Node Modules);
-2. gulp (Run start_dev);
+**In root of template, use commands:**
+1. npm i (Install Node Modules)
+2. gulp (Run start_dev)
 
 ### Install jQuery libraries through Bower
 1. bower i plugin-name;
