@@ -9,3 +9,6 @@ node_modules/
 
 # Css files
 app/css/
+
+# js libs file
+app/js/libs.min.js
