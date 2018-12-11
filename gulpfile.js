@@ -1,15 +1,21 @@
-var gulp          = require('gulp'),
-		gutil         = require('gulp-util' ),
-		sass          = require('gulp-sass'),
-		browsersync   = require('browser-sync'),
-		concat        = require('gulp-concat'),
-		uglify        = require('gulp-uglify'),
-		cleancss      = require('gulp-clean-css'),
-		rename        = require('gulp-rename'),
-		autoprefixer  = require('gulp-autoprefixer'),
-		notify        = require("gulp-notify"),
-		rsync         = require('gulp-rsync'),
-		sourcemaps 		= require('gulp-sourcemaps');
+var gulp           = require('gulp'),
+		sass           = require('gulp-sass'),
+		browsersync    = require('browser-sync'),
+		concat         = require('gulp-concat'),
+		uglify         = require('gulp-uglify'),
+		cleancss       = require('gulp-clean-css'),
+		rename         = require('gulp-rename'),
+		autoprefixer   = require('gulp-autoprefixer'),
+		notify         = require("gulp-notify"),
+		sourcemaps 		 = require('gulp-sourcemaps'),
+		// Pug
+		plumber 			 = require('gulp-plumber'),
+    pug 					 = require('gulp-pug'),
+    // pugInheritance = require('gulp-pug-inheritance'),
+    changed 			 = require('gulp-changed'),
+    cached 				 = require('gulp-cached'),
+    gulpif 				 = require('gulp-if'),
+    filter 				 = require('gulp-filter');
 
 
 // Libs concat & minify
@@ -53,7 +59,7 @@ gulp.task('sass', function() {
 	.pipe(sourcemaps.init())
 	.pipe(sass({ outputStyle: 'expand' }).on('error', notify.onError()))
 	.pipe(rename('main.min.css'))
-	.pipe(autoprefixer(['last 15 versions']))
+	.pipe(autoprefixer(['last 5 versions']))
 	.pipe(cleancss( {level: { 1: { specialComments: 0 } } })) // Opt., comment out when debugging
 	.pipe(sourcemaps.write('.'))
 	.pipe(gulp.dest('app/css'))
@@ -65,20 +71,28 @@ gulp.task('sass_libs', function() {
 	return gulp.src('app/sass/libs.sass')
 	.pipe(sass({ outputStyle: 'expand' }).on('error', notify.onError()))
 	.pipe(rename('libs.min.css'))
-	.pipe(autoprefixer(['last 15 versions']))
+	.pipe(autoprefixer(['last 5 versions']))
 	.pipe(cleancss( {level: { 1: { specialComments: 0 } } })) // Opt., comment out when debugging
 	.pipe(gulp.dest('app/css'))
 	.pipe(browsersync.reload( {stream: true} ))
 });
 
+gulp.task('pug', function() {
+	return gulp.src('app/pug/pages/*.pug')
+		.pipe(plumber())
+		.pipe(pug({pretty: true}))
+		.pipe(gulp.dest('app/'))
+		.pipe(browsersync.stream());
+});
+
 
 // Watch tasks
-gulp.task('watch', ['sass', 'sass_libs', 'js_libs', 'browser-sync'], function() {
+gulp.task('watch', ['sass', 'sass_libs', 'js_libs', 'pug', 'browser-sync'], function() {
 	gulp.watch(['app/sass/**/*.sass','!app/sass/libs/libs.sass'], ['sass']);
 	gulp.watch('gulpfile.js', ['js_libs']);
 	gulp.watch('app/sass/libs.sass', ['sass_libs']);
 	gulp.watch('app/js/common.js', browsersync.reload);
-	gulp.watch('app/*.html', browsersync.reload);
+	gulp.watch('app/pug/**/*.pug', ['pug']);
 });
 
 gulp.task('default', ['watch']);

@@ -1,20 +1,32 @@
-var isMobile = false;
+// ==========================================================================
+// Public Vars
+// ==========================================================================
+// mobile flag
+var is_mobile = false;
+var mobile_breackpoint = 992;
 
-if ($('body').width() <= 992) {
-	isMobile = true;
+if ($('body').width() <= mobile_breackpoint) {
+	is_mobile = true;
 } else {
-	isMobile = false
+	is_mobile = false
 }
 
 $(window).on('resize', function() {
-	if ($('body').width() <= 992) {
+	if ($('body').width() <= mobile_breackpoint) {
 		is_mobile = true;
 	} else {
 		is_mobile = false
 	}
-});
+})
 
-var mfp_popup = function(popup_id) {
+
+
+// ==========================================================================
+// Base functions
+// ==========================================================================
+
+// Popup
+var mfp_popup = function(popup_id, source) {
 	$.magnificPopup.open({
 		items: {src: popup_id},
 		type: 'inline',
@@ -26,75 +38,42 @@ var mfp_popup = function(popup_id) {
 		midClick: true,
 		removalDelay: 300,
 		closeMarkup: '<button title="%title%" type="button" class="mfp-close"></button>',
-		mainClass: 'my-mfp-zoom-in'
+		mainClass: 'my-mfp-zoom-in',
+		callbacks: {
+			open: function() {
+				$('.source').val(source);
+			}
+		}
 	});
 }
 
-
-$(window).on('load', function() {
-
-	// Load function
-
-});
-
 $(document).ready(function() {
-
-	$('.js_callback').click(function(event) {
-		event.preventDefault();
-
-		mfp_popup($(this).attr('href'));
-	});
-
-	// Slider Callback
-	$('#format_slider').owlCarousel({
-		loop: true,
-		margin: 0,
-		items: 1,
-		nav: true,
-		dots: false,
-		navText: ['',''],
-		autoHeight: true,
-		onInitialized: store_format,
-	});
-
-	function store_format(event) {
-		var el = event.target;
-	};
-
-	// disable submit button
-	$('label.js_iagree').click(function() {
-		if( !$(this).siblings('input#us_iagree').prop("checked") ){
-			$(this).closest('form').find('.button').removeClass('disabled').prop('disabled', false);
-		} else {
-			$(this).closest('form').find('.button').addClass('disabled').prop('disabled', true);
-		}
-	});
 
 	// Phone input mask
 	$('input[type="tel"]').inputmask({
-			mask: '+7 (999) 999-99-99',
-			showMaskOnHover: false
+		mask: '+7 (999) 999-99-99',
+		showMaskOnHover: false
 	});
 
-	//E-mail Ajax Send
+
+	// E-mail Ajax Send
 	$("form").submit(function() {
 		var form = $(this);
 		$.ajax({
 			type: "POST",
-			url: "php/mail.php",
+			url: "mail/mail.php",
 			data: form.serialize()
 		}).done(function() {
 			
-			if (form.attr('id') === 'callback_form') {
-				form.find('.form_result').addClass('active');
+			if (form.hasClass('popup_form')) {
+				form.find('.form_result').addClass('success');
 			} else {
-				$.magnificPopup.close();
 				mfp_popup('#success');
 			}
 
 			setTimeout(function() {
-				if (form.attr('id') === 'callback_form') {
-					form.find('.form_result').removeClass('active');
+				if (form.hasClass('popup_form')) {
+					form.find('.form_result').removeClass('success');
 				}
 
 				$.magnificPopup.close();
@@ -105,25 +84,44 @@ $(document).ready(function() {
 		return false;
 	});
 
-	// Zoom_img
-	// $('[data-fancybox="images"]').fancybox({
-	// 	buttons: ["slideShow", "zoom", "close"],
-	// 	animationEffect: "zoom",
-	// 	transitionEffect: "slide",
-	// 	image: {
-	// 		preload: true
-	// 	},
-	// 	afterLoad : function(instance, current) {
-	// 		var pixelRatio = window.devicePixelRatio || 1;
 
-	// 		if ( pixelRatio > 1.5 ) {
-	// 			current.width  = current.width  / pixelRatio;
-	// 			current.height = current.height / pixelRatio;
-	// 		}
-	// 	}
-	// });
+	// Open popup
+	$('.js_popup').click(function(event) {
+		event.preventDefault();
+		var id = $(this).attr('href');
+		var source = $(this).attr('data-source') + ' (' + $(this).html() +')';
 
+		mfp_popup(id, source);
+	});
+
+
+	// mobile menu toggle
+	$('.js_menu').click(function() {
+
+		$(this).toggleClass('active');
+		$('#menu').toggleClass('opened');
+	});
 
 });
 
 
+
+// ==========================================================================
+// Load functions
+// ==========================================================================
+$(window).on('load', function() {
+
+	// 
+
+});
+
+
+
+// ==========================================================================
+// Ready Functions
+// ==========================================================================
+$(document).ready(function() {
+
+	
+
+});
