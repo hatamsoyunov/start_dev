@@ -10,7 +10,7 @@ var gulp           = require('gulp'),
 		sourcemaps 		 = require('gulp-sourcemaps'),
 		// Pug
 		plumber 			 = require('gulp-plumber'),
-    pug 					 = require('gulp-pug');
+		pug 					 = require('gulp-pug');
 
 
 // Libs concat & minify
@@ -79,8 +79,6 @@ gulp.task('pug', function() {
 		.pipe(gulp.dest('app/'))
 		.pipe(browsersync.stream());
 });
-
-
 
 // Watch tasks
 gulp.task('watch', ['sass', 'sass_libs', 'js_libs', 'pug', 'browser-sync'], function() {
