@@ -1,6 +1,17 @@
-include ../layout/head.pug
-body
+doctype html
+html(lang="en")
+	- var title = 'Main | Company name'
+	include ../layout/head.pug
+	
+	body
 
-	include ../layout/header.pug
+		include ../layout/header.pug
 
-	include ../layout/footer.pug
+		main#main
+			.container
+				.row
+					h1 Title 
+						br
+						| perenos
+
+		include ../layout/footer.pug

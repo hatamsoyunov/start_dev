@@ -10,12 +10,7 @@ var gulp           = require('gulp'),
 		sourcemaps 		 = require('gulp-sourcemaps'),
 		// Pug
 		plumber 			 = require('gulp-plumber'),
-    pug 					 = require('gulp-pug'),
-    // pugInheritance = require('gulp-pug-inheritance'),
-    changed 			 = require('gulp-changed'),
-    cached 				 = require('gulp-cached'),
-    gulpif 				 = require('gulp-if'),
-    filter 				 = require('gulp-filter');
+    pug 					 = require('gulp-pug');
 
 
 // Libs concat & minify
@@ -80,7 +75,7 @@ gulp.task('sass_libs', function() {
 gulp.task('pug', function() {
 	return gulp.src('app/pug/pages/*.pug')
 		.pipe(plumber())
-		.pipe(pug({pretty: true}))
+		.pipe(pug())
 		.pipe(gulp.dest('app/'))
 		.pipe(browsersync.stream());
 });
