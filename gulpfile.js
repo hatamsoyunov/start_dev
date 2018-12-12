@@ -42,7 +42,7 @@ gulp.task('browser-sync', function() {
 			baseDir: 'app'
 		},
 		notify: false,
-		open: false,
+		open: true,
 		// tunnel: true,
 		// tunnel: "projectmane", //Demonstration page: http://projectmane.localtunnel.me
 	})
@@ -75,7 +75,7 @@ gulp.task('sass_libs', function() {
 gulp.task('pug', function() {
 	return gulp.src('app/pug/pages/*.pug')
 		.pipe(plumber())
-		.pipe(pug())
+		.pipe(pug({pretty: true}))
 		.pipe(gulp.dest('app/'))
 		.pipe(browsersync.stream());
 });
@@ -85,7 +85,7 @@ gulp.task('watch', ['sass', 'sass_libs', 'js_libs', 'pug', 'browser-sync'], func
 	gulp.watch(['app/sass/**/*.sass','!app/sass/libs/libs.sass'], ['sass']);
 	gulp.watch('gulpfile.js', ['js_libs']);
 	gulp.watch('app/sass/libs.sass', ['sass_libs']);
-	gulp.watch('app/js/common.js', browsersync.reload);
+	gulp.watch('app/js/main.js', browsersync.reload);
 	gulp.watch('app/pug/**/*.pug', ['pug']);
 });
 
