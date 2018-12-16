@@ -50,7 +50,7 @@ gulp.task('browser-sync', function() {
 
 // main sass
 gulp.task('sass', function() {
-	return gulp.src('app/sass/[^_]*.sass')
+	return gulp.src('app/sass/main.sass')
 	.pipe(sourcemaps.init())
 	.pipe(sass({ outputStyle: 'expand' }).on('error', notify.onError()))
 	.pipe(rename('main.min.css'))
