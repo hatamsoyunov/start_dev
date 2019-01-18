@@ -47,6 +47,10 @@ var mfp_popup = function(popup_id, source) {
 	});
 }
 
+
+// ==========================================================================
+// Ready Functions
+// ==========================================================================
 $(document).ready(function() {
 
 	// Phone input mask
@@ -57,11 +61,11 @@ $(document).ready(function() {
 
 
 	// E-mail Ajax Send
-	$("form").submit(function() {
+	$('form').submit(function() {
 		var form = $(this);
 		$.ajax({
-			type: "POST",
-			url: "mail/mail.php",
+			type: 'POST',
+			url: 'mail/mail.php',
 			data: form.serialize()
 		}).done(function() {
 			
@@ -77,7 +81,7 @@ $(document).ready(function() {
 				}
 
 				$.magnificPopup.close();
-				form.trigger("reset");
+				form.trigger('reset');
 			}, 3000);
 
 		});
@@ -112,16 +116,5 @@ $(document).ready(function() {
 $(window).on('load', function() {
 
 	// 
-
-});
-
-
-
-// ==========================================================================
-// Ready Functions
-// ==========================================================================
-$(document).ready(function() {
-
-	
 
 });
