@@ -10,5 +10,5 @@ node_modules/
 # Css files
 app/css/
 
-# git
-.git/
+# js libs file
+app/js/libs.min.js
