@@ -1,0 +1,19 @@
+//- SVG icon
+mixin icon(name)
+	svg(class="icon icon_" + name)
+		use(xlink:href="img/sprite.svg#" + name)
+
+
+//- input
+mixin input(name, placeholder, required)
+	.input_wrap
+		if required
+			input(type="text" name=name, placeholder=placeholder, required)
+		else
+			input(type="text" name=name, placeholder=placeholder)
+
+
+//- textarea
+mixin textarea(name, placeholder)
+	.input_wrap
+		textarea(name=name, cols="30", rows="5" placeholder=placeholder)

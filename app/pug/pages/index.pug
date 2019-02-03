@@ -1,13 +1,15 @@
+include ../layout/_mixins.pug
+
 doctype html
 html(lang="en")
 	- var title = 'Main | Company name'
-	include ../layout/head.pug
+	include ../layout/_head.pug
 	
 	body
 		|
 		|
 		// Header
-		include ../layout/header.pug
+		include ../layout/_header.pug
 
 		|
 		|
@@ -22,4 +24,4 @@ html(lang="en")
 		|
 		|
 		// Footer
-		include ../layout/footer.pug
+		include ../layout/_footer.pug 
