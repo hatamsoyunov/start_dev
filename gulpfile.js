@@ -44,7 +44,7 @@ gulp.task('js_libs', function() {
 // SVG sprite
 gulp.task('svgstore', function () {
 	return gulp
-	.src('app/img/svg_sprite/*.svg')
+	.src('app/img/svg-sprite/*.svg')
 	.pipe(svgmin(function (file) {
 		var prefix = path.basename(file.relative, path.extname(file.relative));
 		return {
@@ -116,7 +116,7 @@ gulp.task('pug', function() {
 });
 
 // Watch tasks
-gulp.task('watch', ['sass', 'sass_libs', 'js_libs', 'pug', 'browser-sync'], function() {
+gulp.task('watch', ['sass', 'sass_libs', 'js_libs', 'pug', 'svgstore', 'browser-sync'], function() {
 	gulp.watch(['app/sass/**/*.sass','!app/sass/libs/libs.sass'], ['sass']);
 	gulp.watch('gulpfile.js', ['js_libs']);
 	gulp.watch('app/sass/libs.sass', ['sass_libs']);
