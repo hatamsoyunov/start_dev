@@ -121,7 +121,7 @@ gulp.task('watch', ['sass', 'sass_libs', 'js_libs', 'pug', 'svgstore', 'browser-
 	gulp.watch('gulpfile.js', ['js_libs']);
 	gulp.watch('app/sass/libs.sass', ['sass_libs']);
 	gulp.watch('app/js/main.js', browsersync.reload);
-	gulp.watch('app/img/svg_sprite/*.svg', ['svgstore']);
+	gulp.watch('app/img/svg-sprite/*.svg', ['svgstore']);
 	gulp.watch('app/pug/**/*.pug', ['pug']);
 });
 
