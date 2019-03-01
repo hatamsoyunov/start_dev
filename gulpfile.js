@@ -10,7 +10,13 @@ var gulp           = require('gulp'),
 		sourcemaps 		 = require('gulp-sourcemaps'),
 		// Pug
 		plumber 			 = require('gulp-plumber'),
-		pug 					 = require('gulp-pug');
+		pug 					 = require('gulp-pug'),
+		pugbem 				 = require('gulp-pugbem'),
+		// SVG sprite
+		svgstore 			 = require('gulp-svgstore'),
+		svgmin 				 = require('gulp-svgmin'),
+		cheerio 			 = require('gulp-cheerio'),
+		path 					 = require('path');
 
 
 // Libs concat & minify
@@ -33,6 +39,34 @@ gulp.task('js_libs', function() {
 	.pipe(uglify()) // Mifify js (opt.)
 	.pipe(gulp.dest('app/js'))
 	.pipe(browsersync.reload({ stream: true }))
+});
+
+// SVG sprite
+gulp.task('svgstore', function () {
+	return gulp
+	.src('app/img/svg_sprite/*.svg')
+	.pipe(svgmin(function (file) {
+		var prefix = path.basename(file.relative, path.extname(file.relative));
+		return {
+			plugins: [{
+				cleanupIDs: {
+					prefix: prefix + '-',
+					minify: false
+				}
+			}]
+		}
+	}))
+	.pipe(cheerio({
+		run: function ($) {
+			$('[fill]').removeAttr('fill');
+			$('[stroke]').removeAttr('stroke');
+			$('[style]').removeAttr('style');
+			$('[data-name]').removeAttr('data-name');
+		},
+		parserOptions: { xmlMode: true }
+	}))
+	.pipe(svgstore())
+	.pipe(gulp.dest('app/img/'));
 });
 
 // Browser sync
@@ -74,10 +108,11 @@ gulp.task('sass_libs', function() {
 
 gulp.task('pug', function() {
 	return gulp.src('app/pug/pages/*.pug')
-		.pipe(plumber())
-		.pipe(pug({pretty: true}))
-		.pipe(gulp.dest('app/'))
-		.pipe(browsersync.stream());
+	.pipe(plumber())
+	// .pipe(pug({pretty: true}))
+	.pipe(pug({pretty: true, plugins: [pugbem]}))
+	.pipe(gulp.dest('app/'))
+	.pipe(browsersync.stream());
 });
 
 // Watch tasks
@@ -86,6 +121,7 @@ gulp.task('watch', ['sass', 'sass_libs', 'js_libs', 'pug', 'browser-sync'], func
 	gulp.watch('gulpfile.js', ['js_libs']);
 	gulp.watch('app/sass/libs.sass', ['sass_libs']);
 	gulp.watch('app/js/main.js', browsersync.reload);
+	gulp.watch('app/img/svg_sprite/*.svg', ['svgstore']);
 	gulp.watch('app/pug/**/*.pug', ['pug']);
 });
 

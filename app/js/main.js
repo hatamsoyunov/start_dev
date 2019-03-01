@@ -2,20 +2,20 @@
 // Public Vars
 // ==========================================================================
 // mobile flag
-var is_mobile = false;
-var mobile_breackpoint = 992;
+var isMobile = false;
+var mobileBreackpoint = 992;
 
-if ($('body').width() <= mobile_breackpoint) {
-	is_mobile = true;
+if ($('body').width() <= mobileBreackpoint) {
+	isMobile = true;
 } else {
-	is_mobile = false
+	isMobile = false
 }
 
 $(window).on('resize', function() {
-	if ($('body').width() <= mobile_breackpoint) {
-		is_mobile = true;
+	if ($('body').width() <= mobileBreackpoint) {
+		isMobile = true;
 	} else {
-		is_mobile = false
+		isMobile = false
 	}
 })
 
@@ -26,9 +26,9 @@ $(window).on('resize', function() {
 // ==========================================================================
 
 // Popup
-var mfp_popup = function(popup_id, source) {
+var mfpPopup = function(popupID, source) {
 	$.magnificPopup.open({
-		items: {src: popup_id},
+		items: {src: popupID},
 		type: 'inline',
 		fixedContentPos: false,
 		fixedBgPos: true,
@@ -69,15 +69,15 @@ $(document).ready(function() {
 			data: form.serialize()
 		}).done(function() {
 			
-			if (form.hasClass('popup_form')) {
-				form.find('.form_result').addClass('success');
+			if (form.hasClass('popup-form')) {
+				form.find('.form-result').addClass('form-result--success');
 			} else {
-				mfp_popup('#success');
+				mfpPopup('#success');
 			}
 
 			setTimeout(function() {
-				if (form.hasClass('popup_form')) {
-					form.find('.form_result').removeClass('success');
+				if (form.hasClass('popup-form')) {
+					form.find('.form-result').removeClass('form-result--success');
 				}
 
 				$.magnificPopup.close();
@@ -90,17 +90,17 @@ $(document).ready(function() {
 
 
 	// Open popup
-	$('.js_popup').click(function(event) {
+	$('.js-popup').click(function(event) {
 		event.preventDefault();
 		var id = $(this).attr('href');
 		var source = $(this).attr('data-source') + ' (' + $(this).html() +')';
 
-		mfp_popup(id, source);
+		mfpPopup(id, source);
 	});
 
 
 	// mobile menu toggle
-	$('.js_menu').click(function() {
+	$('.js-menu').click(function() {
 
 		$(this).toggleClass('active');
 		$('#menu').toggleClass('opened');
