@@ -140,11 +140,6 @@ img
 [class*="__container"]:not(.tabs__container)
 	+make-container()
 	+make-container-max-widths()
-	
-	max-width: 1280px !important
-
-.container
-	max-width: 1280px !important
 
 [class*="__row"]
 	+make-row()
@@ -154,20 +149,8 @@ img
 	margin-right: 0
 
 
-// Menu
-#menu
-	ul
-		display: flex
-		align-items: center
-		li
-			&:last-child
-				margin-right: 0
-			a
-
-
-
 // Popup
-.mfp_default
+.mfp-default
 	position: relative
 	max-width: 470px
 	min-height: 300px
@@ -193,7 +176,7 @@ img
 			transform: translateY(1px)
 		
 
-	.form_result
+	.form-result
 		position: absolute
 		top: 0
 		left: 0
@@ -209,17 +192,17 @@ img
 		visibility: hidden
 		transition: all .3s ease
 		z-index: 1
-		&.success
+		&--success
 			opacity: 1
 			visibility: visible
 
 		.mess
-			&_title
+			&-title
 				font-size: 30px
 				letter-spacing: 2px
 				font-weight: 600
 				text-transform: uppercase
 
-			&_desc
+			&-desc
 				font-size: 18px
 				line-height: 24px
