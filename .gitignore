@@ -13,3 +13,4 @@ app/css/
 # files
 app/index.html
 app/js/libs.min.js
+app/js/main.min.js
