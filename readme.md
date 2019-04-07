@@ -15,11 +15,11 @@ Author: [hattam](https://hattam.ru)
 1. npm i (Install Node Modules)
 2. gulp (Run start_dev)
 
-### Install jQuery libraries through Bower
+**Install jQuery libraries through Bower**
 1. bower i plugin-name;
 2. Then place all jQuery libraries paths in the 'jsLibs' & 'cssLibs' tasks (gulpfile.js);
 
-### Links
+## Links
 - **[BEM](https://en.bem.info/methodology/quick-start/)**
 - **[Pug+Bem](https://github.com/legostaev-vadim/gulp-pugbem)**
 - **[Pug+Bem for bootsrap](https://github.com/legostaev-vadim/gulp-pugbem/issues/1)**
