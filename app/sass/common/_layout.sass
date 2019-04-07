@@ -12,59 +12,17 @@ body
 	+sm
 
 
-body
-	min-width: 320px
-	position: relative
-	font-family: $def_font
-	line-height: 1.65
-	overflow-x: hidden
-	-webkit-font-smoothing: antialiased
-	&.no_scroll
-		overflow: hidden
-
-
-::placeholder
-	color: #666
-
-::selection
-	background-color: $c1
-	color: #fff
-
-
-ul
-	margin: 0
-	padding: 0
-	list-style-type: none
-
-
-a
-	transition: all .3s ease
-	&:hover
-		text-decoration: none
-	&:focus
-		text-decoration: none
-		outline: none
-
-
-img
-	width: auto
-	max-width: 100%
-	height: auto
-
-
 
 // Default btn
 .btn
 	position: relative
 	display: inline-block
-	font-size: 13px
-	font-weight: 600
-	text-transform: uppercase
+	font-size: 14px
 	border-radius: 4px
 	color: #fff
 	text-align: center
 	text-decoration: none
-	padding: 13px 38px 11px
+	padding: 10px 30px
 	background-color: $c1
 	border: none
 	outline: none
@@ -72,9 +30,9 @@ img
 	&:focus:not(.disabled),
 	&:hover:not(.disabled)
 		text-decoration: none
-	&:focus:not(.disabled)
-		outline: none
+	&:focus:not(.disabled),
 	&:hover:not(.disabled)
+		outline: none
 		cursor: pointer
 		color: #fff
 		background-color: lighten($c1, 10%)
@@ -84,72 +42,12 @@ img
 	&.disabled
 		opacity: .4
 		
-	-ms-user-select: none
-	-moz-user-select: none
-	-khtml-user-select: none
-	-webkit-user-select: none
+	user-select: none
 
 
-
-// Text align
-.t_center
-	text-align: center
-
-.t_left
-	text-align: left
-
-.t_right
-	text-align: right
-
-
-
-// Flex group & align
-.group
-	display: flex
-	
-.fx_wrap
-	flex-wrap: wrap
-
-.ai_start
-	align-items: flex-start
-
-.ai_center
-	align-items: center
-
-.ai_end
-	align-items: flex-end
-
-.jc_start
-	justify-content: flex-start
-
-.jc_between
-	justify-content: space-between
-
-.jc_center
-	justify-content: center
-
-.jc_end
-	justify-content: flex-end
-
-.fd_col
-	flex-direction: column
-
-
-
-// Boostrap + bem
-[class*="__container"]:not(.tabs__container)
-	+make-container()
-	+make-container-max-widths()
-
-[class*="__row"]
-	+make-row()
-
-.no-gutter
-	margin-left: 0
-	margin-right: 0
-
-
+/// ==========================================================================
 // Popup
+// ==========================================================================
 .mfp-default
 	position: relative
 	max-width: 470px
@@ -206,3 +104,81 @@ img
 			&-desc
 				font-size: 18px
 				line-height: 24px
+
+
+
+// Magnific popup
+.mfp
+	position: relative
+	max-width: 40.625rem
+	min-height: 26.25rem
+	text-align: left
+	padding: 5rem 4.375rem 3.125rem
+	margin: 2.5rem auto
+	background: #fff
+	+md
+		max-width: 450px
+
+	.mfp-close
+		top: 5px
+		right: 5px
+		opacity: 1
+		transition: all .2s ease
+		&:focus
+			outline: none
+		&:active
+			transform: translateY(1px)
+
+.form-result
+	position: absolute
+	top: 0
+	left: 0
+	width: 100%
+	height: 100%
+	display: flex
+	align-items: center
+	justify-content: center
+	text-align: center
+	background: #fff
+	opacity: 0
+	padding: 50px
+	visibility: hidden
+	transition: all .3s ease
+	z-index: 1
+	.mess
+		&__title
+			font-size: 42px
+			line-height: 47px
+			font-weight: 600
+			margin-bottom: 10px
+			opacity: 0
+			transform: translateY(50px)
+			transition: all .6s ease
+			+sm
+				font-size: 30px
+			+xsm
+				font-size: 25px
+				margin-bottom: 5px
+
+		&__desc
+			font-size: 22px
+			line-height: 27px
+			opacity: 0
+			transform: translateY(50px)
+			transition: all .6s ease
+			+xsm
+				font-size: 16px
+	
+	// &--success
+	&--success
+		opacity: 1
+		visibility: visible
+		.mess__title,
+		.mess__desc
+			opacity: 1
+			transform: translateY(0)
+			transition-delay: .1s
+		.mess__title
+			transition-delay: .2s
+		.mess__desc
+			transition-delay: .3s

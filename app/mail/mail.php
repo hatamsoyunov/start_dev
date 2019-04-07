@@ -1,46 +1,75 @@
-<?php
-$method = $_SERVER['REQUEST_METHOD'];
-//Script Foreach
-$c = true;
-if ( $method === 'POST' ) {
-	$project_name = trim($_POST["project_name"]);
-	$admin_email  = trim($_POST["admin_email"]);
-	$from_email   = trim($_POST["from_email"]);
-	$form_subject = trim($_POST["form_subject"]);
-	foreach ( $_POST as $key => $value ) {
-		if ( $value != "" && $key != "project_name" && $key != "admin_email" && $key != "from_email" && $key != "form_subject" ) {
-			$key = str_replace('_', ' ', $key);
-			$message .= "
-			" . ( ($c = !$c) ? '<tr>':'<tr style="background-color: #f8f8f8;">' ) . "
-				<td style='padding: 10px; border: #e9e9e9 1px solid;'><b>$key</b></td>
-				<td style='padding: 10px; border: #e9e9e9 1px solid;'>$value</td>
-			</tr>
-			";
+<?
+$result = [ 'status' => 'error' ];
+$_SERVER['REQUEST_METHOD'] === 'POST' && !empty( $_POST['data'] ) ?: die( json_encode( $result ) );
+
+$data = [
+	'to'           => 'hattam@mail.ru',
+	'from'         => 'no-reply@hattam.ru',
+	'subject'      => 'Новая заявка',
+	'project_name' => 'Project name',
+	'fields'       => $_POST['data']
+];
+
+
+if( !empty( $_POST["captcha"] ) ){
+
+	$url  = 'https://www.google.com/recaptcha/api/siteverify?secret=[key]&response=' . $_POST["captcha"]["key"] . '&remoteip=' . $_SERVER['REMOTE_ADDR'];
+	$resp = json_decode( file_get_contents( $url ), true );
+
+	if( ! empty( $resp['success'] ) && $resp['success'] == true ){
+		if( sendMail( $data ) ){
+			$result['status'] = 'success';
+			die( json_encode( $result ) );
+		} else {
+			$result['status'] = 'errors';
+			die( json_encode( $result ) );
 		}
+	} else {
+		$result['status'] = 'error_recaptcha';
+		die( json_encode( $result ) );
 	}
-} else if ( $method === 'GET' ) {
-	$project_name = trim($_GET["project_name"]);
-	$admin_email  = trim($_GET["admin_email"]);
-	$from_email   = trim($_POST["from_email"]);
-	$form_subject = trim($_GET["form_subject"]);
-	foreach ( $_GET as $key => $value ) {
-		if ( $value != "" && $key != "project_name" && $key != "admin_email" && $key != "from_email" && $key != "form_subject" ) {
-			$key = str_replace('_', ' ', $key);
-			$message .= "
-			" . ( ($c = !$c) ? '<tr>':'<tr style="background-color: #f8f8f8;">' ) . "
-				<td style='padding: 10px; border: #e9e9e9 1px solid;'><b>$key</b></td>
-				<td style='padding: 10px; border: #e9e9e9 1px solid;'>$value</td>
-			</tr>
-			";
-		}
+
+} else {
+	if( sendMail( $data ) ){
+		$result['status'] = 'success';
+		die( json_encode( $result ) );
+	} else {
+		$result['status'] = 'errors';
+		die( json_encode( $result ) );
 	}
 }
-$message = "<table style='width: 100%;'>$message</table>";
-function adopt($text) {
-	return '=?UTF-8?B?'.Base64_encode($text).'?=';
+
+function validateData( $var ){
+	if( is_int( $var ) || is_float( $var ) ){
+		return $var;
+	} else if( is_string( $var ) ){
+		if( filter_var( $var, FILTER_VALIDATE_EMAIL ) ){
+			return $var;
+		} else {
+			return htmlspecialchars( $var );
+		}
+	} else {
+		return false;
+	}
 }
-$headers = "MIME-Version: 1.0" . PHP_EOL .
-"Content-Type: text/html; charset=utf-8" . PHP_EOL .
-'From: '.adopt($project_name).' <'.$from_email.'>' . PHP_EOL .
-'Reply-To: '.$from_email.'' . PHP_EOL;
-mail($admin_email, adopt($form_subject), $message, $headers );
+
+function sendMail( $data ){
+	$subject = empty( $_POST['subject'] ) ? $data['subject'] : htmlspecialchars( $_POST['subject']['value'] );
+	$style   = 'padding: 10px; border: #e9e9e9 1px solid;';
+	$message = '<table style="width: 100%;">';
+	$i = 0;
+	foreach( $data['fields'] as $value ){
+		$message .= ( $i % 2 ) == 1 ? '<tr>' : '<tr style="background-color: #f8f8f8;">';
+		$message .= '<td style=\'' . $style . '\'><b>' . validateData( $value['title'] ) . '</b></td>
+						<td style=\'' . $style . '\'>' . validateData( $value['value'] ) . '</td>
+					 </tr>';
+		$i ++;
+	}
+	$message .= '</table>';
+	$headers[] = 'MIME-Version: 1.0';
+	$headers[] = 'Content-type: text/html; charset=utf-8';
+	$headers[] = 'From: ' . $data['project_name'] . ' <' . $data['from'] . '>';
+	$headers[] = 'Cc: ' . $data['from'];
+	$headers[] = 'Bcc: ' . $data['from'];
+	return mail( $data['to'], $subject, $message, implode( PHP_EOL, $headers ) );
+}

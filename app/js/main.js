@@ -1,24 +1,22 @@
 // ==========================================================================
 // Public Vars
 // ==========================================================================
-// mobile flag
 var isMobile = false;
 var mobileBreackpoint = 992;
 
 if ($('body').width() <= mobileBreackpoint) {
 	isMobile = true;
 } else {
-	isMobile = false
+	isMobile = false;
 }
 
-$(window).on('resize', function() {
+$(window).on('resize', function () {
 	if ($('body').width() <= mobileBreackpoint) {
 		isMobile = true;
 	} else {
-		isMobile = false
+		isMobile = false;
 	}
-})
-
+});
 
 
 // ==========================================================================
@@ -26,9 +24,11 @@ $(window).on('resize', function() {
 // ==========================================================================
 
 // Popup
-var mfpPopup = function(popupID, source) {
+var mfpPopup = function (popupID, source) {
 	$.magnificPopup.open({
-		items: {src: popupID},
+		items: {
+			src: popupID
+		},
 		type: 'inline',
 		fixedContentPos: false,
 		fixedBgPos: true,
@@ -37,21 +37,21 @@ var mfpPopup = function(popupID, source) {
 		preloader: false,
 		midClick: true,
 		removalDelay: 300,
-		closeMarkup: '<button title="%title%" type="button" class="mfp-close"></button>',
-		mainClass: 'my-mfp-zoom-in',
-		callbacks: {
-			open: function() {
-				$('.source').val(source);
-			}
-		}
+		closeMarkup: '<button type="button" class="mfp-close">&times;</button>',
+		mainClass: 'mfp-fade-zoom',
+		// callbacks: {
+		// 	open: function() {
+		// 		$('.source').val(source);
+		// 	}
+		// }
 	});
-}
+};
 
 
 // ==========================================================================
 // Ready Functions
 // ==========================================================================
-$(document).ready(function() {
+$(document).ready(function () {
 
 	// Phone input mask
 	$('input[type="tel"]').inputmask({
@@ -61,28 +61,57 @@ $(document).ready(function() {
 
 
 	// E-mail Ajax Send
-	$('form').submit(function() {
+	$('form').submit(function (e) {
+		e.preventDefault();
+
 		var form = $(this);
+		var formData = {};
+		formData.data = {};
+
+		// Serialize
+		form.find('input, textarea').each(function () {
+			var name = $(this).attr('name');
+			var title = $(this).attr('data-name');
+			var value = $(this).val();
+
+			formData.data[name] = {
+				title: title,
+				value: value
+			};
+
+			if (name === 'subject') {
+				formData.subject = {
+					value: value
+				};
+				delete formData.data.subject;
+			}
+		});
+
 		$.ajax({
 			type: 'POST',
 			url: 'mail/mail.php',
-			data: form.serialize()
-		}).done(function() {
-			
-			if (form.hasClass('popup-form')) {
-				form.find('.form-result').addClass('form-result--success');
-			} else {
-				mfpPopup('#success');
-			}
+			dataType: 'json',
+			data: formData
+		}).done(function (data) {
 
-			setTimeout(function() {
-				if (form.hasClass('popup-form')) {
-					form.find('.form-result').removeClass('form-result--success');
+			if (data.status === 'success') {
+				if (form.closest('.mfp-wrap').hasClass('mfp-ready')) {
+					form.find('.form-result').addClass('form-result--success');
+				} else {
+					mfpPopup('#success');
 				}
 
-				$.magnificPopup.close();
-				form.trigger('reset');
-			}, 3000);
+				setTimeout(function () {
+					if (form.closest('.mfp-wrap').hasClass('mfp-ready')) {
+						form.find('.form-result').removeClass('form-result--success');
+					}
+					$.magnificPopup.close();
+					form.trigger('reset');
+				}, 3000);
+
+			} else {
+				alert('Ajax result: ' + data.status);
+			}
 
 		});
 		return false;
@@ -90,20 +119,19 @@ $(document).ready(function() {
 
 
 	// Open popup
-	$('.js-popup').click(function(event) {
+	$('.js-popup').click(function (event) {
 		event.preventDefault();
-		var id = $(this).attr('href');
-		var source = $(this).attr('data-source') + ' (' + $(this).html() +')';
+		var popupID = $(this).attr('href');
 
-		mfpPopup(id, source);
+		mfpPopup(popupID);
 	});
 
 
 	// mobile menu toggle
-	$('.js-menu').click(function() {
+	$('.js-menu').click(function () {
 
-		$(this).toggleClass('active');
-		$('#menu').toggleClass('opened');
+		$(this).toggleClass('is-active');
+		$('.menu').toggleClass('opened');
 	});
 
 });
@@ -113,7 +141,7 @@ $(document).ready(function() {
 // ==========================================================================
 // Load functions
 // ==========================================================================
-$(window).on('load', function() {
+$(window).on('load', function () {
 
 	// 
 

@@ -15,6 +15,6 @@ Author: [hattam](https://hattam.ru)
 1. npm i (Install Node Modules)
 2. gulp (Run start_dev)
 
-### Install jQuery libraries through Bower
+<!-- ### Install jQuery libraries through Bower
 1. bower i plugin-name;
-2. Then place all jQuery libraries paths in the 'js_libs' task (gulpfile.js);
+2. Then place all jQuery libraries paths in the 'js-libs' task (gulpfile.js); -->

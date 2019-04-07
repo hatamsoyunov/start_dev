@@ -5,15 +5,12 @@ mixin icon(name)
 
 
 //- input
-mixin input(name, placeholder, required)
-	.input_wrap
-		if required
-			input(type="text" name=name, placeholder=placeholder, required)
-		else
-			input(type="text" name=name, placeholder=placeholder)
+mixin input(type, name, dataName, placeholder, required)
+	.input-wrap
+		input(type=type, name=name, data-name=dataName, placeholder=placeholder, required=required)
 
 
 //- textarea
-mixin textarea(name, placeholder)
-	.input_wrap
-		textarea(name=name, cols="30", rows="5" placeholder=placeholder)
+mixin textarea(name, dataName, placeholder, required)
+	.input-wrap
+		textarea(name=name, data-name=dataName, cols="30", rows="5" placeholder=placeholder, required=required)

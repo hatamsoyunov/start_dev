@@ -1,7 +1,31 @@
 footer.footer
-	._container
-		._row
-			p Footer
+	.container
+		.row
+			.col
+				p Footer
+
+
+|
+|
+// Request popup
+.b-request-popup.mfp.zoom-anim-dialog.mfp-hide#request
+	form._form
+		+input('text','name','Имя','Ваше имя', true)
+		+input('text','phone','Телефон','Телефон', false)
+		button.btn Send
+		.b-form-result
+			.b-mess
+				._title Success!
+				._desc We will contact with you soon
+
+|
+|
+// Success popup
+.b-succes-popup.mfp.zoom-anim-dialog.mfp-hide#success
+	.b-form-result.-success
+		.b-mess
+			._title Success!
+			._desc We will contact with you soon
 
 |
 |

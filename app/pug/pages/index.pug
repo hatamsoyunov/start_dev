@@ -1,27 +1,31 @@
-include ../layout/_mixins.pug
+include ../layout/_mixins
 
 doctype html
 html(lang="en")
 	- var title = 'Main | Company name'
-	include ../layout/_head.pug
+	include ../layout/_head
 	
 	body
 		|
 		|
 		// Header
-		include ../layout/_header.pug
+		include ../layout/_header
 
 		|
 		|
 		
 		// Section
-		section
+		section.b-block
 			.container
 				.row
-					p Section
-		
+					.col-6
+						h2._title Section title
+						._desc
+							p Section decription text
+
+							a(href="#request").btn.js-popup Open popup
 
 		|
 		|
 		// Footer
-		include ../layout/_footer.pug 
+		include ../layout/_footer 
