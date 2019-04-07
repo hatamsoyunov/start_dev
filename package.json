@@ -5,18 +5,19 @@
   "main": "gulpfile.js",
   "author": "Hatam Soyunov",
   "license": "ISC",
-	"jshintConfig" : {
+  "jshintConfig": {
     "camelcase": true,
-		"indent": 2,
-		"curly": true,
-		"strict": false,
-		"browser": true,
-		"jquery": true,
-		"eqeqeq": true,
-		"esversion": 6,
-		"noempty": true
+    "indent": 2,
+    "curly": true,
+    "strict": false,
+    "browser": true,
+    "jquery": true,
+    "eqeqeq": true,
+    "esversion": 6,
+    "noempty": true
   },
   "devDependencies": {
+    "node.extend": ">=2.0.1",
     "gulp": "^4.0.0",
     "browser-sync": "^2.26.3",
     "gulp-autoprefixer": "^4.1.0",
