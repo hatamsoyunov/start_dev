@@ -112,6 +112,7 @@ function svgSprite() {
 	.pipe(cheerio({
 		run: function ($) {
 			$('[fill]').removeAttr('fill');
+			$('[fill-opacity]').removeAttr('fill-opacity');
 			$('[stroke]').removeAttr('stroke');
 			$('[style]').removeAttr('style');
 			$('[data-name]').removeAttr('data-name');
