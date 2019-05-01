@@ -131,4 +131,4 @@ watch('app/js/main.js').on('change', browsersync.reload);
 watch('app/img/svg-sprite/*.svg', svgSprite);
 
 exports.minjs = minJs;
-exports.default = parallel(jsLibs, cssLibs, css, html, browserSync);
+exports.default = parallel(jsLibs, cssLibs, css, html, svgSprite, browserSync);
