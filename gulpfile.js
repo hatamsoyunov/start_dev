@@ -63,9 +63,9 @@ function css() {
 	return src('app/sass/main.sass')
 	.pipe(sourcemaps.init())
 	.pipe(sass({ outputStyle: 'expand' }).on('error', notify.onError()))
-	.pipe(rename({ extname: '.min.css' }))
 	.pipe(autoprefixer(['last 10 versions']))
-	.pipe(cleancss( {level: { 1: { specialComments: 0 } } }))
+	// .pipe(cleancss( {level: { 1: { specialComments: 0 } } }))
+	// .pipe(rename({ extname: '.min.css' }))
 	.pipe(sourcemaps.write('.'))
 	.pipe(dest('app/css'))
 	.pipe(browsersync.stream());
