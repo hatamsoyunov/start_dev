@@ -1,51 +1,48 @@
-// ==========================================================================
-// Responsive
-// ==========================================================================
-var isMobile = false;
-var mobileBreackpoint = 992;
+////////// Responsive
+// Breackpoints
+let breakpoints = {
+	xl : 1200,
+	lg : 992,
+	md : 768,
+	sm : 576,
+	xsm: 375
+};
 
-if ($('body').width() <= mobileBreackpoint) {
-	isMobile = true;
-} else {
-	isMobile = false;
-}
+// Media quares
+let MQ = {
+	wWidth : 0,
+	isXL   : false,
+	isLG   : false,
+	isMD   : false,
+	isSM   : false,
+	isXSM  : false,
+	updateState: function(){
+		this.wWidth = $(window).width();
+
+		for( let key in breakpoints ){
+			this['is'+ key.toUpperCase()] = this.wWidth < breakpoints[key];
+		}
+		isMobile = this.isMD;
+	}
+};
+
+MQ.updateState();
 
 $(window).on('resize', function () {
-	if ($('body').width() <= mobileBreackpoint) {
-		isMobile = true;
-	} else {
-		isMobile = false;
-	}
+	MQ.updateState();
+
+	console.log(MQ);
 });
 
 
-// ==========================================================================
-// Common functions
-// ==========================================================================
+////////// Common functions
+// Open popup
+$('.js-popup').click(function (event) {
+	event.preventDefault();
+	let popupID = $(this).attr('href');
 
-// Popup
-var mfpPopup = function (popupID, source) {
-	$.magnificPopup.open({
-		items: {
-			src: popupID
-		},
-		type: 'inline',
-		fixedContentPos: false,
-		fixedBgPos: true,
-		overflowY: 'auto',
-		closeBtnInside: true,
-		preloader: false,
-		midClick: true,
-		removalDelay: 300,
-		closeMarkup: '<button type="button" class="mfp-close">&times;</button>',
-		mainClass: 'mfp-fade-zoom',
-		// callbacks: {
-		// 	open: function() {
-		// 		$('.source').val(source);
-		// 	}
-		// }
-	});
-};
+	mfpPopup(popupID);
+});
 
 // mobile menu toggle
 $('.js-menu').click(function () {
@@ -60,20 +57,19 @@ $('input[type="tel"]').inputmask({
 	showMaskOnHover: false
 });
 
-
 // E-mail Ajax Send
 $('form').submit(function (e) {
 	e.preventDefault();
 
-	var form = $(this);
-	var formData = {};
+	let form = $(this);
+	let formData = {};
 	formData.data = {};
 
 	// Serialize
 	form.find('input, textarea').each(function () {
-		var name = $(this).attr('name');
-		var title = $(this).attr('data-name');
-		var value = $(this).val();
+		let name = $(this).attr('name');
+		let title = $(this).attr('data-name');
+		let value = $(this).val();
 
 		formData.data[name] = {
 			title: title,
@@ -119,17 +115,6 @@ $('form').submit(function (e) {
 });
 
 
-// Open popup
-$('.js-popup').click(function (event) {
-	event.preventDefault();
-	var popupID = $(this).attr('href');
-
-	mfpPopup(popupID);
-});
-
-
-
-
 
 // ==========================================================================
 // Ready Functions
@@ -150,3 +135,27 @@ $(window).on('load', function () {
 	// 
 
 });
+
+// Popup
+let mfpPopup = function (popupID, source) {
+	$.magnificPopup.open({
+		items: {
+			src: popupID
+		},
+		type: 'inline',
+		fixedContentPos: false,
+		fixedBgPos: true,
+		overflowY: 'auto',
+		closeBtnInside: true,
+		preloader: false,
+		midClick: true,
+		removalDelay: 300,
+		closeMarkup: '<button type="button" class="mfp-close">&times;</button>',
+		mainClass: 'mfp-fade-zoom',
+		// callbacks: {
+		// 	open: function() {
+		// 		$('.source').val(source);
+		// 	}
+		// }
+	});
+};
