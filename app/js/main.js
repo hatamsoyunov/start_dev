@@ -30,8 +30,6 @@ MQ.updateState();
 
 $(window).on('resize', function () {
 	MQ.updateState();
-
-	console.log(MQ);
 });
 
 
