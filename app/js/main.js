@@ -71,12 +71,12 @@ $('form').submit(function (e) {
 
 		formData.data[name] = {
 			title: title,
-			// value: value
+			value: value
 		};
 
 		if (name === 'subject') {
 			formData.subject = {
-				// value: value
+				value: value
 			};
 			delete formData.data.subject;
 		}
