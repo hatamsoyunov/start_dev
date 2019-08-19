@@ -5,13 +5,10 @@ body
 	line-height: 1.65
 	overflow-x: hidden
 	-webkit-font-smoothing: antialiased
-	&.no-scroll
-		overflow: hidden
 
 
-::placeholder
-	color: #666
 
+////////// Typography
 ::selection
 	background-color: $c1
 	color: #fff
@@ -22,7 +19,6 @@ ul
 	padding: 0
 	list-style-type: none
 
-
 a
 	transition: all .3s ease
 	&:hover
@@ -31,16 +27,59 @@ a
 		text-decoration: none
 		outline: none
 
-
 img
 	width: auto
 	max-width: 100%
 	height: auto
 
 
+// Titles
+h1, h2, h3, h4, h5, h6
+	// font-family: inherit
+	// line-height: 1.1
+	// font-weight: 600
+	// color: inherit
+
+h1
+	font-size: 36px
+h2
+	font-size: 30px
+h3
+	font-size: 24px
+h4
+	font-size: 18px
+h5
+	font-size: 14px
+h6
+	font-size: 12px
 
 
+// Paragraphs
+p
+	// margin-bottom: 1em
+	// color: inherit
 
+
+// Inputs
+.input-wrap
+	margin-bottom: 30px
+
+input,
+textarea
+	width: 100%
+	font-size: 16px
+	color: $c0
+	padding: 5px 10px
+	border: 1px solid #999
+	transition: all .3s ease
+	&:focus
+		outline: none
+		border-color: $c1
+	&:disabled
+		background: #fff
+
+::placeholder
+	color: #999
 
 
 // Text align
@@ -55,45 +94,14 @@ img
 
 
 
-// Flex group & align
-.group
-	display: flex
-	
-.fx-wrap
-	flex-wrap: wrap
-
-.ai-start
-	align-items: flex-start
-
-.ai-center
-	align-items: center
-
-.ai-end
-	align-items: flex-end
-
-.jc-start
-	justify-content: flex-start
-
-.jc-between
-	justify-content: space-between
-
-.jc-center
-	justify-content: center
-
-.jc-end
-	justify-content: flex-end
-
-.fd-col
-	flex-direction: column
-
-
+////////// Reset cols gutter
 .no-gutter
 	margin-left: 0
 	margin-right: 0
 
 
 
-// Fade-zoom animation - mfp
+////////// Fade-zoom animation - mfp
 .mfp-fade-zoom
 	&.mfp-bg 
 		opacity: 0

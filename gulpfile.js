@@ -19,7 +19,6 @@ const	svgmin 				 = require('gulp-svgmin');
 const	cheerio 			 = require('gulp-cheerio');
 const	path 					 = require('path');
 
-
 // js libs
 function jsLibs() {
 	return src([
@@ -123,12 +122,13 @@ function svgSprite() {
 	.pipe(dest('app/img/'));
 }
 
-// watchFiles
+// watch files
 watch(['app/sass/**/*.sass','!app/sass/libs/libs.sass'], css);
 watch('app/sass/libs.sass', cssLibs);
 watch('app/pug/**/*.pug', html);
 watch('app/js/main.js').on('change', browsersync.reload);
 watch('app/img/svg-sprite/*.svg', svgSprite);
 
+// Export tasks
 exports.minjs = minJs;
 exports.default = parallel(jsLibs, cssLibs, css, html, svgSprite, browserSync);

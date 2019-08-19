@@ -20,9 +20,8 @@ let MQ = {
 		this.wWidth = $(window).width();
 
 		for( let key in breakpoints ){
-			this['is'+ key.toUpperCase()] = this.wWidth < breakpoints[key];
+			this['is'+ key.toUpperCase()] = this.wWidth <= breakpoints[key];
 		}
-		isMobile = this.isMD;
 	}
 };
 
@@ -33,8 +32,10 @@ $(window).on('resize', function () {
 });
 
 
+
 ////////// Common functions
-// Open popup
+
+// Popup opener
 $('.js-popup').click(function (event) {
 	event.preventDefault();
 	let popupID = $(this).attr('href');
@@ -42,7 +43,8 @@ $('.js-popup').click(function (event) {
 	mfpPopup(popupID);
 });
 
-// mobile menu toggle
+
+// Mobile menu toggle
 $('.js-menu').click(function () {
 
 	$(this).toggleClass('is-active');
@@ -130,7 +132,9 @@ $(window).on('load', function () {
 
 });
 
-// Popup
+
+
+/////////// mfp popup - https://dimsemenov.com/plugins/magnific-popup/
 let mfpPopup = function (popupID, source) {
 	$.magnificPopup.open({
 		items: {
