@@ -1,23 +1,23 @@
-const { watch, src, dest, parallel } = require('gulp');
-const	sass           = require('gulp-sass');
-const	browsersync    = require('browser-sync');
-const	concat         = require('gulp-concat');
-const	uglify         = require('gulp-uglify');
-const	cleancss       = require('gulp-clean-css');
-const	rename         = require('gulp-rename');
-const	autoprefixer   = require('gulp-autoprefixer');
-const	notify         = require("gulp-notify");
-const	sourcemaps 		 = require('gulp-sourcemaps');
-// Pug
-const	plumber 			 = require('gulp-plumber');
-const	pug 					 = require('gulp-pug');
-const	pugbem 				 = require('gulp-pugbem');
-const	htmlbeautify 	 = require('gulp-html-beautify');
-// SVG sprite
-const	svgstore 			 = require('gulp-svgstore');
-const	svgmin 				 = require('gulp-svgmin');
-const	cheerio 			 = require('gulp-cheerio');
-const	path 					 = require('path');
+const { watch, src, dest, parallel } = require('gulp'),
+	sass           = require('gulp-sass'),
+	browsersync    = require('browser-sync'),
+	concat         = require('gulp-concat'),
+	uglify         = require('gulp-uglify'),
+	cleancss       = require('gulp-clean-css'),
+	rename         = require('gulp-rename'),
+	autoprefixer   = require('gulp-autoprefixer'),
+	notify         = require("gulp-notify"),
+	sourcemaps 		 = require('gulp-sourcemaps'),
+	// Pug
+	plumber 			 = require('gulp-plumber'),
+	pug 					 = require('gulp-pug'),
+	pugbem 				 = require('gulp-pugbem'),
+	prettyHtml		 = require('gulp-pretty-html'),
+	// SVG sprite
+	svgstore 			 = require('gulp-svgstore'),
+	svgmin 				 = require('gulp-svgmin'),
+	cheerio 			 = require('gulp-cheerio'),
+	path 					 = require('path');
 
 // js libs
 function jsLibs() {
@@ -77,7 +77,12 @@ function html() {
 	return src('app/pug/pages/*.pug')
 	.pipe(plumber({errorHandler: notify.onError()}))
 	.pipe(pug({plugins: [pugbem]}))
-	.pipe(htmlbeautify())
+	.pipe(prettyHtml({
+		'indent_size': 2,
+		'indent_with_tabs': true,
+		'unformatted': ['code', 'pre', 'em', 'strong', 'span', 'i', 'b', 'br'],
+		'extra_liners': []
+	}))
 	.pipe(dest('app/'))
 	.pipe(browsersync.stream());
 }

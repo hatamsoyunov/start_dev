@@ -24,7 +24,6 @@
     "gulp-cheerio": "^0.6.3",
     "gulp-clean-css": "^3.9.2",
     "gulp-concat": "^2.6.1",
-    "gulp-html-beautify": "^1.0.1",
     "gulp-if": "^2.0.2",
     "gulp-notify": "^3.2.0",
     "gulp-plumber": "^1.2.1",
@@ -40,6 +39,7 @@
     "path": "^0.12.7"
   },
   "dependencies": {
-    "emitty": "^1.4.0"
+    "emitty": "^1.4.0",
+    "gulp-pretty-html": "^2.0.10"
   }
 }
