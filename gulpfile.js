@@ -1,12 +1,13 @@
 const { watch, src, dest, parallel } = require('gulp'),
-	sass           = require('gulp-sass'),
-	browsersync    = require('browser-sync'),
-	concat         = require('gulp-concat'),
-	uglify         = require('gulp-uglify'),
-	cleancss       = require('gulp-clean-css'),
-	rename         = require('gulp-rename'),
-	autoprefixer   = require('gulp-autoprefixer'),
-	notify         = require("gulp-notify"),
+	sass 					 = require('gulp-sass'),
+	browsersync 	 = require('browser-sync'),
+	concat 				 = require('gulp-concat'),
+	uglify 				 = require('gulp-uglify'),
+	babel 				 = require('gulp-babel'),
+	cleancss 			 = require('gulp-clean-css'),
+	rename 				 = require('gulp-rename'),
+	autoprefixer 	 = require('gulp-autoprefixer'),
+	notify 				 = require("gulp-notify"),
 	sourcemaps 		 = require('gulp-sourcemaps'),
 	// Pug
 	plumber 			 = require('gulp-plumber'),
@@ -51,7 +52,10 @@ function cssLibs() {
 // main min js
 function minJs() {
 	return src('app/js/main.js')
-	.pipe(uglify())
+	.pipe(babel({
+			presets: ['@babel/env']
+	}))
+	// .pipe(uglify())
 	.pipe(rename({ extname: '.min.js' }))
 	.pipe(dest('app/js'))
 	.pipe(browsersync.stream());
@@ -131,9 +135,8 @@ function svgSprite() {
 watch(['app/sass/**/*.sass','!app/sass/libs/libs.sass'], css);
 watch('app/sass/libs.sass', cssLibs);
 watch('app/pug/**/*.pug', html);
-watch('app/js/main.js').on('change', browsersync.reload);
+watch('app/js/main.js', minJs);
 watch('app/img/svg-sprite/*.svg', svgSprite);
 
 // Export tasks
-exports.minjs = minJs;
-exports.default = parallel(jsLibs, cssLibs, css, html, svgSprite, browserSync);
+exports.default = parallel(jsLibs, minJs, cssLibs, css, html, svgSprite, browserSync);
