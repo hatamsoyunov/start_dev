@@ -11,6 +11,8 @@ node_modules/
 app/css/
 
 # files
-app/index.html
 app/js/libs.min.js
 app/js/main.min.js
+
+# html
+app/*.html
