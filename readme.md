@@ -22,5 +22,5 @@ Author: [hattam](https://hattam.ru)
 ## Links
 - **[BEM](https://en.bem.info/methodology/quick-start/)**
 - **[Pug+Bem](https://github.com/legostaev-vadim/gulp-pugbem)**
-- **[Pug+Bem for bootsrap](https://github.com/legostaev-vadim/gulp-pugbem/issues/1)**
+- **[Pug+Bem for bootstrap](https://github.com/legostaev-vadim/gulp-pugbem/issues/1)**
 
