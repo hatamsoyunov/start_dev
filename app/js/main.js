@@ -1,52 +1,48 @@
 ////////// Responsive
 // Breackpoints
 let breakpoints = {
-	xl : 1200,
-	lg : 992,
-	md : 768,
-	sm : 576,
-	xsm: 375
+	xl: 1200,
+	lg: 992,
+	md: 768,
+	sm: 576,
+	xsm: 375,
 };
 
 // Media quares
 let MQ = {
-	wWidth : 0,
-	isXL   : false,
-	isLG   : false,
-	isMD   : false,
-	isSM   : false,
-	isXSM  : false,
-	updateState: function(){
+	wWidth: 0,
+	isXL: false,
+	isLG: false,
+	isMD: false,
+	isSM: false,
+	isXSM: false,
+	updateState: function() {
 		this.wWidth = $(window).width();
 
-		for( let key in breakpoints ){
-			this['is'+ key.toUpperCase()] = this.wWidth <= breakpoints[key];
+		for (let key in breakpoints) {
+			this['is' + key.toUpperCase()] = this.wWidth <= breakpoints[key];
 		}
-	}
+	},
 };
 
 MQ.updateState();
 
-$(window).on('resize', function () {
+$(window).on('resize', function() {
 	MQ.updateState();
 });
-
-
 
 ////////// Common functions
 
 // Popup opener
-$('.js-popup').click(function (event) {
+$('.js-popup').click(function(event) {
 	event.preventDefault();
 	let popupID = $(this).attr('href');
 
 	mfpPopup(popupID);
 });
 
-
 // Mobile menu toggle
-$('.js-menu').click(function () {
-
+$('.js-menu').click(function() {
 	$(this).toggleClass('is-active');
 	$('.menu').toggleClass('opened');
 });
@@ -54,11 +50,11 @@ $('.js-menu').click(function () {
 // Phone input mask
 $('input[type="tel"]').inputmask({
 	mask: '+7 (999) 999-99-99',
-	showMaskOnHover: false
+	showMaskOnHover: false,
 });
 
 // E-mail Ajax Send
-$('form').submit(function (e) {
+$('form').submit(function(e) {
 	e.preventDefault();
 
 	let form = $(this);
@@ -66,19 +62,19 @@ $('form').submit(function (e) {
 	formData.data = {};
 
 	// Serialize
-	form.find('input, textarea').each(function () {
+	form.find('input, textarea').each(function() {
 		let name = $(this).attr('name');
 		let title = $(this).attr('data-name');
 		let value = $(this).val();
 
 		formData.data[name] = {
 			title: title,
-			value: value
+			value: value,
 		};
 
 		if (name === 'subject') {
 			formData.subject = {
-				value: value
+				value: value,
 			};
 			delete formData.data.subject;
 		}
@@ -88,9 +84,8 @@ $('form').submit(function (e) {
 		type: 'POST',
 		url: 'mail/mail.php',
 		dataType: 'json',
-		data: formData
-	}).done(function (data) {
-
+		data: formData,
+	}).done(function(data) {
 		if (data.status === 'success') {
 			if (form.closest('.mfp-wrap').hasClass('mfp-ready')) {
 				form.find('.form-result').addClass('form-result--success');
@@ -98,47 +93,35 @@ $('form').submit(function (e) {
 				mfpPopup('#success');
 			}
 
-			setTimeout(function () {
+			setTimeout(function() {
 				if (form.closest('.mfp-wrap').hasClass('mfp-ready')) {
 					form.find('.form-result').removeClass('form-result--success');
 				}
 				$.magnificPopup.close();
 				form.trigger('reset');
 			}, 3000);
-
 		} else {
 			alert('Ajax result: ' + data.status);
 		}
-
 	});
 	return false;
 });
 
-
-
 ////////// Ready Functions
-$(document).ready(function () {
-
+$(document).ready(function() {
 	//
-
 });
-
-
 
 ////////// Load functions
-$(window).on('load', function () {
-
-	// 
-
+$(window).on('load', function() {
+	//
 });
 
-
-
 /////////// mfp popup - https://dimsemenov.com/plugins/magnific-popup/
-let mfpPopup = function (popupID, source) {
+let mfpPopup = function(popupID, source) {
 	$.magnificPopup.open({
 		items: {
-			src: popupID
+			src: popupID,
 		},
 		type: 'inline',
 		fixedContentPos: false,
