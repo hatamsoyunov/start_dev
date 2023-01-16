@@ -23,4 +23,5 @@ tasks (gulpfile.js);
 
 ## Links
 
+- **[include html parts](https://www.npmjs.com/package/ssi#supported-instructions)**
 - **[BEM](https://en.bem.info/methodology/quick-start/)**
