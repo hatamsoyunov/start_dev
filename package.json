@@ -1,6 +1,6 @@
 {
   "name": "start_dev",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "start_dev - Front-end developing start template",
   "author": "Hatam Soyunov",
   "license": "ISC",
@@ -32,11 +32,9 @@
     "gulp-uglify": "3.0.2",
     "hamburgers": "1.1.3",
     "node-sass": "8.0.0",
+    "inputmask": "5.0.7",
+    "jquery": "3.6.3",
+    "magnific-popup": "1.1.0",
     "ssi": "0.3.0"
-  },
-  "dependencies": {
-    "inputmask": "^5.0.7",
-    "jquery": "^3.6.3",
-    "magnific-popup": "^1.1.0"
   }
 }

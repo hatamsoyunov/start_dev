@@ -10,12 +10,17 @@ Author: [hattam](https://hattam.ru)
 
 1. Install Node Modules - `yarn install` or `npm i`
 2. `yarn start` - to run in dev mode
+2. `yarn build` - build static files for release
 
 **Concat libraries** Install the libraries and specify all library paths in the "jsLibs" and "cssLibs"
 tasks (gulpfile.js);
 
+## Main Gulpfile.js options:
+
+`cssLibsPaths` and `jsLibsPaths`: List of library paths 
+
+`watchFileTypes`: List of files extensions for watching & hard reload
+
 ## Links
 
 - **[BEM](https://en.bem.info/methodology/quick-start/)**
-- **[Pug+Bem](https://github.com/legostaev-vadim/gulp-pugbem)**
-- **[Pug+Bem for bootstrap](https://github.com/legostaev-vadim/gulp-pugbem/issues/1)**
