@@ -1,18 +1,16 @@
-# Bower dependency directory (https://bower.io/)
-bower_components
+# OSX
+#
+.DS_Store
 
-# Dependency directories
+# node.js
 node_modules/
-
-# Optional npm cache directory
+npm-debug.log
+yarn-error.log
 .npm
 
-# Css files
-app/css/
+# generated static files
+/dist
 
-# files
-app/js/libs.min.js
-app/js/main.min.js
-
-# html
-app/*.html
+# generated static files for dev
+/src/css
+/src/js/*.min.*

@@ -1,0 +1,27 @@
+.btn
+	position: relative
+	display: inline-block
+	font-size: 14px
+	border-radius: 4px
+	color: #fff
+	text-align: center
+	text-decoration: none
+	padding: 10px 30px
+	background-color: $c1
+	border: none
+	outline: none
+	transition: all .3s ease
+	user-select: none
+	&:focus:not(.disabled),
+	&:hover:not(.disabled)
+		outline: none
+		cursor: pointer
+		color: #fff
+		text-decoration: none
+		background-color: lighten($c1, 10%)
+
+	&:active:not(.disabled)
+		background-color: darken($c1, 5%)
+
+	&.disabled
+		opacity: .4

@@ -1,0 +1,51 @@
+  
+  <!-- Footer-->
+  <footer class="footer">
+    <div class="container">
+      <div class="row">
+        <div class="col">Footer</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Request popup -->
+  <div class="mfp mfp--request-popup zoom-anim-dialog mfp-hide" id="request">
+    <div class="mfp__title">Оставьте заявку</div>
+    <div class="mfp__desc">менеджер свяжется с Вами в течение 3 часов</div>
+
+    <form class="mfp__form">
+      <div class="input-wrap">
+        <input type="text" name="name" data-name="Имя" placeholder="Имя" />
+      </div>
+      <div class="input-wrap">
+        <input type="tel" name="phone" data-name="Телефон" placeholder="Телефон" required="required" />
+      </div>
+      <div class="input-wrap">
+        <input type="email" name="email" data-name="Почта" placeholder="Почта" />
+      </div>
+      <button class="btn">Send</button>
+
+      <div class="form-result">
+        <div class="mess">
+          <div class="mess__title">Success!</div>
+          <div class="mess__desc">We will contact with you soon</div>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <!-- Success popup-->
+  <div class="mfp mfp--succes-popup zoom-anim-dialog mfp-hide" id="success">
+    <div class="form-result form-result--success">
+      <div class="mess">
+        <div class="mess__title">Success!</div>
+        <div class="mess__desc">We will contact with you soon</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/libs.min.js"></script>
+  <script src="js/main.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,74 @@
+// Popup
+.mfp
+	position: relative
+	max-width: 40.625rem
+	min-height: 26.25rem
+	text-align: left
+	padding: 5rem 4.375rem 3.125rem
+	margin: 2.5rem auto
+	background: #fff
+	+md
+		max-width: 450px
+
+	.mfp-close
+		top: 5px
+		right: 5px
+		opacity: 1
+		transition: all .2s ease
+		&:focus
+			outline: none
+		&:active
+			transform: translateY(1px)
+
+.form-result
+	position: absolute
+	top: 0
+	left: 0
+	width: 100%
+	height: 100%
+	display: flex
+	align-items: center
+	justify-content: center
+	text-align: center
+	background: #fff
+	opacity: 0
+	padding: 50px
+	visibility: hidden
+	transition: all .3s ease
+	z-index: 1
+	.mess
+		&__title
+			font-size: 42px
+			line-height: 47px
+			font-weight: 600
+			margin-bottom: 10px
+			opacity: 0
+			transform: translateY(50px)
+			transition: all .6s ease
+			+sm
+				font-size: 30px
+			+xsm
+				font-size: 25px
+				margin-bottom: 5px
+
+		&__desc
+			font-size: 22px
+			line-height: 27px
+			opacity: 0
+			transform: translateY(50px)
+			transition: all .6s ease
+			+xsm
+				font-size: 16px
+
+	&--success
+		opacity: 1
+		visibility: visible
+		.mess__title,
+		.mess__desc
+			opacity: 1
+			transform: translateY(0)
+			transition-delay: .1s
+		.mess__title
+			transition-delay: .2s
+		.mess__desc
+			transition-delay: .3s

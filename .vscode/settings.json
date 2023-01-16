@@ -1,6 +1,0 @@
-{
-	"terminal.integrated.cwd": "start_dev",
-	"jshint.enable": false,
-	"editor.formatOnType": true,
-	"editor.formatOnSave": true
-}

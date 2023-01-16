@@ -1,156 +1,141 @@
-const { watch, src, dest, parallel } = require('gulp'),
-	sass = require('gulp-sass'),
-	browsersync = require('browser-sync'),
-	concat = require('gulp-concat'),
-	uglify = require('gulp-uglify'),
-	babel = require('gulp-babel'),
-	cleancss = require('gulp-clean-css'),
-	rename = require('gulp-rename'),
-	autoprefixer = require('gulp-autoprefixer'),
-	notify = require('gulp-notify'),
-	sourcemaps = require('gulp-sourcemaps'),
-	// Pug
-	plumber = require('gulp-plumber'),
-	pug = require('gulp-pug'),
-	pugbem = require('gulp-pugbem'),
-	prettyHtml = require('gulp-pretty-html'),
-	// SVG sprite
-	svgstore = require('gulp-svgstore'),
-	svgmin = require('gulp-svgmin'),
-	cheerio = require('gulp-cheerio'),
-	path = require('path');
-
-// js libs
-function jsLibs() {
-	return src([
-		'app/libs/jquery/dist/jquery.min.js',
-		'app/libs/magnific-popup/dist/jquery.magnific-popup.min.js',
-		// 'app/libs/owl.carousel/dist/owl.carousel.min.js',
-		// 'app/libs/fancybox/dist/jquery.fancybox.min.js',
-		'app/libs/inputmask/dist/min/jquery.inputmask.bundle.min.js',
-	])
-		.pipe(concat('libs.min.js'))
-		.pipe(uglify())
-		.pipe(dest('app/js'))
-		.pipe(browsersync.stream());
-}
-
-// css libs
-function cssLibs() {
-	return src([
-		'app/libs/magnific-popup/dist/magnific-popup.css',
-		// 'app/libs/owl.carousel/dist/assets/owl.carousel.min.css',
-		// 'app/libs/fancybox/dist/jquery.fancybox.css',
-	])
-		.pipe(concat('libs.min.css'))
-		.pipe(autoprefixer(['last 10 versions']))
-		.pipe(cleancss({ level: { 1: { specialComments: 0 } } }))
-		.pipe(dest('app/css'))
-		.pipe(browsersync.stream());
-}
-
-// main min js
-function minJs() {
-	return (
-		src('app/js/main.js')
-			.pipe(
-				babel({
-					presets: ['@babel/env'],
-				})
-			)
-			// .pipe(uglify())
-			.pipe(rename({ extname: '.min.js' }))
-			.pipe(dest('app/js'))
-			.pipe(browsersync.stream())
-	);
-}
-
-// main sass
-function css() {
-	return (
-		src('app/sass/main.sass')
-			.pipe(sourcemaps.init())
-			.pipe(sass({ outputStyle: 'expand' }).on('error', notify.onError()))
-			.pipe(autoprefixer(['last 10 versions']))
-			// .pipe(cleancss( {level: { 1: { specialComments: 0 } } }))
-			// .pipe(rename({ extname: '.min.css' }))
-			.pipe(sourcemaps.write('.'))
-			.pipe(dest('app/css'))
-			.pipe(browsersync.stream())
-	);
-}
-
-// Pug + bem
-pugbem.b = true;
-
-function html() {
-	return src('app/pug/pages/*.pug')
-		.pipe(plumber({ errorHandler: notify.onError() }))
-		.pipe(pug({ plugins: [pugbem] }))
-		.pipe(
-			prettyHtml({
-				indent_size: 2,
-				indent_with_tabs: true,
-				unformatted: ['code', 'pre', 'em', 'strong', 'span', 'i', 'b', 'br'],
-				extra_liners: [],
-			})
-		)
-		.pipe(dest('app/'))
-		.pipe(browsersync.stream());
-}
-
-// Browser sync
-function browserSync(cb) {
-	browsersync.init({
-		server: {
-			baseDir: 'app',
-		},
-		notify: false,
-		open: false,
-	});
-	cb();
-}
-
+import gulp from 'gulp';
+import browsersync from 'browser-sync';
+import bssi from 'browsersync-ssi';
+import ssi from 'ssi';
+import babel from 'gulp-babel';
+import cleancss from 'gulp-clean-css';
+import rename from 'gulp-rename';
+import autoprefixer from 'gulp-autoprefixer';
+import notify from 'gulp-notify';
+import sourcemaps from 'gulp-sourcemaps';
+import uglify from 'gulp-uglify';
+import concat from 'gulp-concat';
+import nodeSass from 'node-sass';
+import { deleteAsync } from 'del';
+import gulpSass from 'gulp-sass';
 // SVG sprite
-function svgSprite() {
-	return src('app/img/svg-sprite/*.svg')
-		.pipe(
-			svgmin(function(file) {
-				var prefix = path.basename(file.relative, path.extname(file.relative));
-				return {
-					plugins: [
-						{
-							cleanupIDs: {
-								prefix: prefix + '-',
-								minify: true,
-							},
-						},
-					],
-				};
-			})
-		)
-		.pipe(
-			cheerio({
-				run: function($) {
-					$('[fill]').removeAttr('fill');
-					$('[fill-opacity]').removeAttr('fill-opacity');
-					$('[stroke]').removeAttr('stroke');
-					$('[style]').removeAttr('style');
-					$('[data-name]').removeAttr('data-name');
-				},
-				parserOptions: { xmlMode: true },
-			})
-		)
-		.pipe(svgstore())
-		.pipe(dest('app/img/'));
+import svgStore from 'gulp-svgstore';
+import svgMin from 'gulp-svgmin';
+import cheerio from 'gulp-cheerio';
+
+const { src, dest, parallel, series, watch } = gulp;
+const sass = gulpSass(nodeSass);
+
+const watchFileTypes = 'html,json,woff,woff2'; // List of files extensions for watching & hard reload
+
+const cssLibsPaths = ['node_modules/magnific-popup/dist/magnific-popup.css'];
+
+const jsLibsPaths = [
+  'node_modules/jquery/dist/jquery.min.js',
+  'node_modules/magnific-popup/dist/jquery.magnific-popup.min.js',
+  'node_modules/inputmask/dist/jquery.inputmask.min.js',
+];
+
+// Tasks
+function jsLibs() {
+  return src(jsLibsPaths).pipe(concat('libs.min.js')).pipe(uglify()).pipe(dest('src/js')).pipe(browsersync.stream());
 }
 
-// watch files
-watch(['app/sass/**/*.sass', '!app/sass/libs/libs.sass'], css);
-watch('app/sass/libs.sass', cssLibs);
-watch('app/pug/**/*.pug', html);
-watch('app/js/main.js', minJs);
-watch('app/img/svg-sprite/*.svg', svgSprite);
+function js() {
+  return src('src/js/main.js')
+    .pipe(babel({ presets: ['@babel/env'] }))
+    .pipe(uglify())
+    .pipe(rename({ extname: '.min.js' }))
+    .pipe(dest('src/js'))
+    .pipe(browsersync.stream());
+}
 
-// Export tasks
-exports.default = parallel(jsLibs, minJs, cssLibs, css, html, svgSprite, browserSync);
+function cssLibs() {
+  return src(cssLibsPaths)
+    .pipe(concat('libs.min.css'))
+    .pipe(autoprefixer(['last 10 versions']))
+    .pipe(cleancss({ level: { 1: { specialComments: 0 } } }))
+    .pipe(dest('src/css'))
+    .pipe(browsersync.stream());
+}
+
+function css() {
+  return src('src/sass/main.sass')
+    .pipe(sourcemaps.init())
+    .pipe(sass({ outputStyle: 'expand' }).on('error', notify.onError()))
+    .pipe(autoprefixer(['last 10 versions']))
+    .pipe(cleancss({ level: { 1: { specialComments: 0 } } }))
+    .pipe(rename({ extname: '.min.css' }))
+    .pipe(sourcemaps.write('.'))
+    .pipe(dest('src/css'))
+    .pipe(browsersync.stream());
+}
+
+function svgSprite() {
+  return src('src/img/svg-sprite/*.svg')
+    .pipe(
+      svgMin(function (file) {
+        var prefix = path.basename(file.relative, path.extname(file.relative));
+        return {
+          plugins: [
+            {
+              cleanupIDs: {
+                prefix: prefix + '-',
+                minify: true,
+              },
+            },
+          ],
+        };
+      }),
+    )
+    .pipe(
+      cheerio({
+        run: function ($) {
+          $('[fill]').removeAttr('fill');
+          $('[fill-opacity]').removeAttr('fill-opacity');
+          $('[stroke]').removeAttr('stroke');
+          $('[style]').removeAttr('style');
+          $('[data-name]').removeAttr('data-name');
+        },
+        parserOptions: { xmlMode: true },
+      }),
+    )
+    .pipe(svgStore())
+    .pipe(dest('src/img/'));
+}
+
+function browserSync() {
+  browsersync.init({
+    server: {
+      baseDir: 'src',
+      middleware: bssi({ baseDir: 'src/', ext: '.html' }),
+    },
+    ghostMode: { clicks: false },
+    notify: false,
+    open: false,
+    // tunnel: 'yousitename', // Attempt to use the URL https://yousutename.loca.lt
+  });
+}
+
+function buildCopy() {
+  return src(['{src/js,src/css}/*.min.*', 'src/assets/**/*', 'src/*.html'], {
+    base: 'src/',
+  }).pipe(dest('dist'));
+}
+
+async function buildHtml() {
+  const includes = new ssi('app/', 'dist/', '/**/*.html');
+  
+  includes.compile();
+  await deleteAsync('dist/parts', { force: true });
+}
+
+async function cleanDist() {
+  await deleteAsync('dist/**/*', { force: true });
+}
+
+function startWatch() {
+  watch('src/sass/**/*.sass', { usePolling: true }, css);
+  watch(['src/js/**/*.js', '!src/js/**/*.min.js'], { usePolling: true }, js);
+  watch('src/assets/svg-sprite/*.svg', { usePolling: true }, svgSprite);
+  watch(`src/**/*.{${watchFileTypes}}`, { usePolling: true }).on('change', browsersync.reload);
+}
+
+// Export
+export const build = series(cleanDist, jsLibs, js, cssLibs, css, buildCopy, buildHtml);
+export default series(jsLibs, js, cssLibs, css, svgSprite, parallel(browserSync, startWatch));
